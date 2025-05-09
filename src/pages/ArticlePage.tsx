@@ -7,6 +7,7 @@ import {
   Calendar,
   Clock,
   ChevronDown,
+  Cpu,
 } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -23,10 +24,18 @@ interface KeyInsight {
   description: string;
 }
 
+interface ProcessingOptions {
+  aiModel: string;
+  titledSections: boolean;
+  includeTimestamps: boolean;
+  articleView: boolean;
+}
+
 const ArticlePage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openChapter, setOpenChapter] = useState<number | null>(null);
+  const [viewMode, setViewMode] = useState<"article" | "plain">("article");
 
   // In a real app, this would come from the location state or an API call
   // For now, we'll use mock data similar to what was in VideoSummary
@@ -84,7 +93,20 @@ const ArticlePage: React.FC = () => {
       },
     ],
     comprehensiveness: "Standard",
+    options: {
+      aiModel: "gpt-4",
+      titledSections: true,
+      includeTimestamps: true,
+      articleView: true,
+    } as ProcessingOptions,
   };
+
+  // Set view mode based on options
+  React.useEffect(() => {
+    if (videoData.options) {
+      setViewMode(videoData.options.articleView ? "article" : "plain");
+    }
+  }, [videoData.options]);
 
   const toggleChapter = (index: number) => {
     setOpenChapter(openChapter === index ? null : index);
@@ -93,6 +115,100 @@ const ArticlePage: React.FC = () => {
   const handleExport = () => {
     // In a real app, this would generate and download a markdown file
     console.log("Exporting summary as markdown");
+  };
+
+  const getModelDisplayName = (modelId: string) => {
+    switch (modelId) {
+      case "gpt-4":
+        return "GPT-4";
+      case "gpt-3.5":
+        return "GPT-3.5";
+      case "claude-3":
+        return "Claude 3";
+      default:
+        return modelId;
+    }
+  };
+
+  const renderPlainTextView = () => {
+    return (
+      <div className={styles.plainTextView}>
+        <h2>Summary</h2>
+        <p>{videoData.summary}</p>
+
+        <h2>Content</h2>
+        {videoData.chapters.map((chapter: Chapter, index: number) => (
+          <div key={index} className={styles.plainTextChapter}>
+            {videoData.options?.titledSections && <h3>{chapter.title}</h3>}
+            {videoData.options?.includeTimestamps && (
+              <span className={styles.plainTimestamp}>{chapter.timestamp}</span>
+            )}
+            <p>{chapter.content}</p>
+          </div>
+        ))}
+
+        <h2>Key Insights</h2>
+        {videoData.keyInsights.map((insight: KeyInsight, index: number) => (
+          <div key={index} className={styles.plainTextInsight}>
+            <h3>{insight.title}</h3>
+            <p>{insight.description}</p>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const renderArticleView = () => {
+    return (
+      <>
+        <div className={styles.section}>
+          <h2>Summary</h2>
+          <p>{videoData.summary}</p>
+        </div>
+
+        {videoData.options?.titledSections !== false && (
+          <div className={`${styles.section} ${styles.chapters}`}>
+            <h2>Chapters</h2>
+            {videoData.chapters.map((chapter: Chapter, index: number) => (
+              <div key={index} className={styles.chapter}>
+                <div
+                  className={`${styles.chapterHeader} ${openChapter === index ? styles.active : ""}`}
+                  onClick={() => toggleChapter(index)}
+                >
+                  <div className={styles.chapterTitle}>
+                    {videoData.options?.includeTimestamps && (
+                      <span className={styles.timestamp}>
+                        {chapter.timestamp}
+                      </span>
+                    )}
+                    <h3>{chapter.title}</h3>
+                  </div>
+                  <ChevronDown
+                    size={20}
+                    className={`${styles.icon} ${openChapter === index ? styles.active : ""}`}
+                  />
+                </div>
+                {openChapter === index && (
+                  <div className={styles.chapterContent}>{chapter.content}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className={`${styles.section} ${styles.insights}`}>
+          <h2>Key Insights</h2>
+          <div className={styles.insightGrid}>
+            {videoData.keyInsights.map((insight: KeyInsight, index: number) => (
+              <div key={index} className={styles.insightCard}>
+                <h3>{insight.title}</h3>
+                <p>{insight.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    );
   };
 
   return (
@@ -122,61 +238,43 @@ const ArticlePage: React.FC = () => {
                 <Clock size={16} />
                 {videoData.duration}
               </div>
+              {videoData.options?.aiModel && (
+                <div className={styles.metaItem}>
+                  <Cpu size={16} />
+                  {getModelDisplayName(videoData.options.aiModel)}
+                </div>
+              )}
             </div>
 
-            <span className={styles.badge}>
-              {videoData.comprehensiveness} Summary
-            </span>
+            <div className={styles.headerControls}>
+              <span className={styles.badge}>
+                {videoData.comprehensiveness} Summary
+              </span>
+
+              {videoData.comprehensiveness === "Standard" && (
+                <div className={styles.viewToggle}>
+                  <button
+                    className={`${styles.viewButton} ${viewMode === "article" ? styles.active : ""}`}
+                    onClick={() => setViewMode("article")}
+                  >
+                    Article View
+                  </button>
+                  <button
+                    className={`${styles.viewButton} ${viewMode === "plain" ? styles.active : ""}`}
+                    onClick={() => setViewMode("plain")}
+                  >
+                    Plain Text
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className={styles.thumbnail}>
             <img src={videoData.thumbnailUrl} alt={videoData.title} />
           </div>
 
-          <div className={styles.section}>
-            <h2>Summary</h2>
-            <p>{videoData.summary}</p>
-          </div>
-
-          <div className={`${styles.section} ${styles.chapters}`}>
-            <h2>Chapters</h2>
-            {videoData.chapters.map((chapter: Chapter, index: number) => (
-              <div key={index} className={styles.chapter}>
-                <div
-                  className={`${styles.chapterHeader} ${openChapter === index ? styles.active : ""}`}
-                  onClick={() => toggleChapter(index)}
-                >
-                  <div className={styles.chapterTitle}>
-                    <span className={styles.timestamp}>
-                      {chapter.timestamp}
-                    </span>
-                    <h3>{chapter.title}</h3>
-                  </div>
-                  <ChevronDown
-                    size={20}
-                    className={`${styles.icon} ${openChapter === index ? styles.active : ""}`}
-                  />
-                </div>
-                {openChapter === index && (
-                  <div className={styles.chapterContent}>{chapter.content}</div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className={`${styles.section} ${styles.insights}`}>
-            <h2>Key Insights</h2>
-            <div className={styles.insightGrid}>
-              {videoData.keyInsights.map(
-                (insight: KeyInsight, index: number) => (
-                  <div key={index} className={styles.insightCard}>
-                    <h3>{insight.title}</h3>
-                    <p>{insight.description}</p>
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
+          {viewMode === "article" ? renderArticleView() : renderPlainTextView()}
 
           <div className={styles.actions}>
             <button onClick={handleExport} className={styles.exportButton}>
