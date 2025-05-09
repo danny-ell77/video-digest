@@ -1,0 +1,71 @@
+@import "../variables.scss";
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: $shadow-sm;
+  z-index: 100;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    h1 {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-bold;
+      margin: 0;
+
+      span {
+        color: $youtube-red;
+      }
+    }
+  }
+
+  .nav {
+    display: none;
+
+    @media (min-width: $breakpoint-md) {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xl;
+    }
+
+    a {
+      color: $dark-text;
+      font-weight: $font-weight-medium;
+
+      &:hover {
+        color: $youtube-red;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .mobileMenuBtn {
+    display: block;
+    background: none;
+    border: none;
+    color: $dark-text;
+    font-size: $font-size-xl;
+
+    @media (min-width: $breakpoint-md) {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+@import "../variables.scss";
+
+.hero {
+  background: linear-gradient(
+    135deg,
+    darken($youtube-red, 20%) 0%,
+    $youtube-red 100%
+  );
+  color: white;
+  padding: 120px 0 $spacing-xxl;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+
+    @media (min-width: $breakpoint-lg) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .content {
+    flex: 1;
+
+    @media (min-width: $breakpoint-lg) {
+      max-width: 50%;
+    }
+
+    h1 {
+      font-size: $font-size-3xl;
+      margin-bottom: $spacing-md;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: $font-size-5xl;
+      }
+    }
+
+    p {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-lg;
+      opacity: 0.9;
+    }
+
+    .btnGroup {
+      display: flex;
+      gap: $spacing-md;
+      flex-wrap: wrap;
+    }
+  }
+
+  .image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: $border-radius-lg;
+      box-shadow: $shadow-xl;
+    }
+  }
+}

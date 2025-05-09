@@ -1,0 +1,127 @@
+@import "../variables.scss";
+
+.videoInput {
+  width: 100%;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    label {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-base;
+    }
+
+    .inputWrapper {
+      position: relative;
+
+      .icon {
+        position: absolute;
+        left: $spacing-md;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $gray-text;
+      }
+
+      input {
+        width: 100%;
+        padding: $spacing-md;
+        padding-left: 2.5rem;
+        border: 1px solid $light-gray;
+        border-radius: $border-radius-md;
+        font-size: $font-size-base;
+
+        &:focus {
+          outline: none;
+          border-color: $youtube-red;
+          box-shadow: 0 0 0 2px rgba($youtube-red, 0.2);
+        }
+
+        &::placeholder {
+          color: $dark-gray;
+        }
+      }
+    }
+  }
+
+  .sliderGroup {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    .sliderHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      label {
+        font-weight: $font-weight-medium;
+        font-size: $font-size-base;
+      }
+
+      .badge {
+        background-color: rgba($youtube-red, 0.1);
+        color: $youtube-red;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    .slider {
+      width: 100%;
+      height: 5px;
+      background-color: $light-gray;
+      border-radius: $border-radius-lg;
+      position: relative;
+      margin: $spacing-md 0;
+
+      .thumb {
+        width: 20px;
+        height: 20px;
+        background-color: $youtube-red;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+      }
+    }
+
+    .labels {
+      display: flex;
+      justify-content: space-between;
+      color: $gray-text;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .submitButton {
+    background-color: $youtube-red;
+    color: white;
+    border: none;
+    border-radius: $border-radius-md;
+    padding: $spacing-md;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: darken($youtube-red, 10%);
+    }
+
+    &:disabled {
+      background-color: $dark-gray;
+      cursor: not-allowed;
+    }
+  }
+}

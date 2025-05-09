@@ -1,0 +1,204 @@
+@import "../variables.scss";
+
+.articlePage {
+  padding-top: 100px;
+  padding-bottom: $spacing-xxl;
+  background-color: $smoke-white;
+  min-height: 100vh;
+
+  .container {
+    max-width: 900px;
+  }
+
+  .header {
+    margin-bottom: $spacing-xl;
+
+    .backLink {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-xs;
+      color: $gray-text;
+      margin-bottom: $spacing-md;
+      font-size: $font-size-sm;
+
+      &:hover {
+        color: $youtube-red;
+      }
+    }
+
+    .title {
+      font-size: $font-size-3xl;
+      margin-bottom: $spacing-sm;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-md;
+      margin-bottom: $spacing-md;
+      color: $gray-text;
+      font-size: $font-size-sm;
+
+      .metaItem {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+      }
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: rgba($youtube-red, 0.1);
+      color: $youtube-red;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  .thumbnail {
+    width: 100%;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    margin-bottom: $spacing-xl;
+    box-shadow: $shadow-md;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  .section {
+    margin-bottom: $spacing-xl;
+
+    h2 {
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-md;
+      color: $dark-text;
+    }
+
+    p {
+      color: $gray-text;
+      line-height: 1.7;
+    }
+  }
+
+  .chapters {
+    .chapter {
+      background-color: white;
+      border-radius: $border-radius-md;
+      margin-bottom: $spacing-md;
+      box-shadow: $shadow-sm;
+      overflow: hidden;
+
+      .chapterHeader {
+        padding: $spacing-md;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+
+        &.active {
+          border-bottom-color: $light-gray;
+        }
+
+        .chapterTitle {
+          display: flex;
+          align-items: center;
+          gap: $spacing-sm;
+
+          .timestamp {
+            background-color: rgba($youtube-red, 0.1);
+            color: $youtube-red;
+            padding: $spacing-xs $spacing-sm;
+            border-radius: $border-radius-sm;
+            font-size: $font-size-xs;
+            font-weight: $font-weight-medium;
+          }
+
+          h3 {
+            margin: 0;
+            font-size: $font-size-base;
+          }
+        }
+
+        .icon {
+          color: $gray-text;
+          transition: transform 0.2s ease;
+
+          &.active {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      .chapterContent {
+        padding: $spacing-md;
+        color: $gray-text;
+        font-size: $font-size-base;
+        line-height: 1.6;
+      }
+    }
+  }
+
+  .insights {
+    .insightGrid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-md;
+
+      @media (min-width: $breakpoint-md) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .insightCard {
+      background-color: white;
+      border-radius: $border-radius-md;
+      padding: $spacing-md;
+      box-shadow: $shadow-sm;
+
+      h3 {
+        font-size: $font-size-lg;
+        margin-bottom: $spacing-sm;
+        color: $dark-text;
+      }
+
+      p {
+        color: $gray-text;
+        font-size: $font-size-base;
+        line-height: 1.6;
+        margin: 0;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: $spacing-xl;
+
+    .exportButton {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      background-color: $youtube-red;
+      color: white;
+      border: none;
+      border-radius: $border-radius-md;
+      padding: $spacing-sm $spacing-lg;
+      font-size: $font-size-base;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: darken($youtube-red, 10%);
+      }
+    }
+  }
+}

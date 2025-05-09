@@ -1,0 +1,39 @@
+@import "../variables.scss";
+
+.testingSection {
+  background-color: white;
+  padding: $spacing-xxl 0;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .heading {
+    margin-bottom: $spacing-xl;
+
+    h2 {
+      font-size: $font-size-3xl;
+      margin-bottom: $spacing-sm;
+    }
+
+    p {
+      font-size: $font-size-lg;
+      color: $gray-text;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+  }
+
+  .inputContainer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: $smoke-white;
+    border-radius: $border-radius-lg;
+    padding: $spacing-xl;
+    box-shadow: $shadow-md;
+  }
+}
